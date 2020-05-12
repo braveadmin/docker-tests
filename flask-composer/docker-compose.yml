@@ -4,14 +4,26 @@ services:
     image: flask
     build: .
     ports:
-      - "8080:$FLASK_RUN_PORT"
+#      - "8080:$FLASK_RUN_PORT"
+      - 8080:3000
     environment:
       - FLASK_RUN_PORT= $FLASK_RUN_PORT
       - FLASK_ENV=development
     volumes:
       - "./app.py:/code/app.py"
+    deploy:
+      replicas: 2
+
   redis:
     image: "redis:alpine"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: '20M'
 
 
 
